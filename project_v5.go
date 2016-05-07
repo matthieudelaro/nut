@@ -20,6 +20,15 @@ type MacroV5 struct {
     UsageText string `yaml:"usage_for_help_section,omitempty"`
     // A longer explanation of how the macro works
     Description string `yaml:"description,omitempty"`
+    DockerImage string `yaml:"docker_image,omitempty"`
+    WorkingDir string `yaml:"container_working_directory,omitempty"`
+    Mount map[string][]string `yaml:"mount,omitempty"`
+    EnvironmentVariables map[string]string `yaml:"environment,omitempty"`
+    Ports []string `yaml:"ports,omitempty"`
+    EnableGUI string `yaml:"enable_gui,omitempty"`
+    EnableNvidiaDevices string `yaml:"enable_nvidia_devices,omitempty"`
+    Privileged string `yaml:"privileged,omitempty"`
+    SecurityOpts []string `yaml:"security_opts,omitempty"`
 }
         func (self *MacroV5) getUsage() string {
             return self.Usage
@@ -35,6 +44,67 @@ type MacroV5 struct {
         }
         func (self *MacroV5) getDescription() string {
             return self.Description
+        }
+        func (self *MacroV5) getDockerImageName() (string, error) {
+            if self.DockerImage != "" { 
+                return self.DockerImage, nil 
+            }
+            return self.project.getBaseEnv().getDockerImageName()
+        }
+        func (self *MacroV5) getWorkingDir() string {
+            if self.WorkingDir != "" { 
+                return self.WorkingDir 
+            }
+            return self.project.getWorkingDir()
+        }
+        func (self *MacroV5) getMountingPoints() map[string]MountingPoint {
+            if len(self.Mount) > 0 {
+                points := make(map[string]MountingPoint)
+                for name, data := range(self.Mount) {
+                    points[name] = &MountingPointV5{
+                        host: data[0],
+                        container: data[1],
+                    }
+                }
+                return points
+            }
+            return self.project.getMountingPoints()
+        }
+        func (self *MacroV5) getEnvironmentVariables() map[string]string {
+            if len(self.EnvironmentVariables) > 0 {
+                return self.EnvironmentVariables
+            }
+            return self.project.getEnvironmentVariables()
+        }
+        func (self *MacroV5) getPorts() []string {
+            if len(self.Ports) > 0 {
+                return self.Ports
+            }
+            return self.project.getPorts()
+        }
+        func (self *MacroV5) getEnableGui() bool {
+            if self.EnableGUI != "" {
+                return self.EnableGUI == "true"
+            }
+            return self.project.getEnableGui()
+        }
+        func (self *MacroV5) getEnableNvidiaDevices() bool {
+            if self.EnableNvidiaDevices != "" {
+                return self.EnableNvidiaDevices == "true"
+            }
+            return self.project.getEnableNvidiaDevices()
+        }
+        func (self *MacroV5) getPrivileged() bool {
+            if self.Privileged != "" {
+                return self.Privileged == "true"
+            }
+            return self.project.getPrivileged()
+        }
+        func (self *MacroV5) getSecurityOpts() []string {
+            if len(self.SecurityOpts) > 0 {
+                return self.SecurityOpts
+            }
+            return self.project.getSecurityOpts()
         }
 
 type MountingPointV5 struct {
@@ -108,6 +178,7 @@ type ProjectV5 struct {
     EnableGUI string `yaml:"enable_gui,omitempty"`
     EnableNvidiaDevices string `yaml:"enable_nvidia_devices,omitempty"`
     Privileged string `yaml:"privileged,omitempty"`
+    SecurityOpts []string `yaml:"security_opts,omitempty"`
     parentProject Project
     cacheMountingPoints map[string]MountingPoint
     cacheMacros map[string]Macro
@@ -149,7 +220,6 @@ type ProjectV5 struct {
             } else {
                 return false
             }
-
         }
 
         func (self *ProjectV5) getMountingPoints() map[string]MountingPoint {
@@ -180,6 +250,7 @@ type ProjectV5 struct {
                 self.cacheMacros = make(map[string]Macro)
                 for name, data := range self.Macros {
                     self.cacheMacros[name] = data
+                    self.cacheMacros[name].setParentProject(self)
                 }
                 // add the macros of the parent, if there is no conflict
                 if self.parentProject != nil {
@@ -188,6 +259,7 @@ type ProjectV5 struct {
                         if self.cacheMacros[name] == nil {
                             log.Debug("add it")
                             self.cacheMacros[name] = macro
+                            self.cacheMacros[name].setParentProject(self)
                         } else {
                             log.Debug("already exist")
                         }
@@ -222,11 +294,7 @@ type ProjectV5 struct {
             if self.EnableGUI == "" && self.parentProject != nil {
                 return self.parentProject.getEnableGui()
             } else {
-                if self.EnableGUI == "true" {
-                    return true
-                } else {
-                    return false
-                }
+                return self.EnableGUI == "true"
             }
             return false
         }
@@ -234,11 +302,7 @@ type ProjectV5 struct {
             if self.EnableNvidiaDevices == "" && self.parentProject != nil {
                 return self.parentProject.getEnableNvidiaDevices()
             } else {
-                if self.EnableNvidiaDevices == "true" {
-                    return true
-                } else {
-                    return false
-                }
+                return self.EnableNvidiaDevices == "true"
             }
             return false
         }
@@ -257,11 +321,7 @@ type ProjectV5 struct {
             if self.Privileged == "" && self.parentProject != nil {
                 return self.parentProject.getPrivileged()
             } else {
-                if self.Privileged == "true" {
-                    return true
-                } else {
-                    return false
-                }
+                return self.Privileged == "true"
             }
             return false
         }

@@ -1,4 +1,4 @@
-syntax_version: "4"
+syntax_version: "5"
 project_name: nut
 based_on:
   github: matthieudelaro/nutfile_go1.6
@@ -10,3 +10,12 @@ mount:
   dockersock: # mount docker socket run nut in a container
   - /var/run/docker.sock
   - /var/run/docker.sock
+macros:
+  code:
+    usage: open this project in vscode
+    docker_image: ctaggart/golang-vscode
+    enable_gui: true
+    security_opts:
+    - seccomp=unconfined
+    actions:
+    - su - vscode -c "export GOPATH=/go; code -w /go/src/github.com/matthieudelaro/nut"

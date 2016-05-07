@@ -49,6 +49,18 @@ type Macro interface {
     getAliases() []string
     getUsageText() string
     getDescription() string
+    // override project settings
+    setParentProject(project Project)
+    getParentProject() Project
+    getDockerImageName() (string, error)
+    getWorkingDir() string
+    getMountingPoints() map[string]MountingPoint
+    getEnvironmentVariables() map[string]string
+    getPorts() []string
+    getEnableGui() bool
+    getPrivileged() bool
+    getEnableNvidiaDevices() bool
+    getSecurityOpts() []string
 }
 
 type MountingPoint interface {
@@ -85,11 +97,13 @@ type Project interface {
     getParentProject() Project
     setParentProject(project Project) error
     getPrivileged() bool
+    getSecurityOpts() []string
 }
 
 /////// Base classes
 /// Placeholder for basic behaviors, and default behaviors for retro-compatibility.
 type MacroBase struct {
+    project Project
 }
         func (self *MacroBase) getUsage() string {
             return ""
@@ -105,6 +119,39 @@ type MacroBase struct {
         }
         func (self *MacroBase) getDescription() string {
             return ""
+        }
+        func (self *MacroBase) setParentProject(project Project) {
+            self.project = project
+        }
+        func (self *MacroBase) getParentProject() Project {
+            return self.project
+        }
+        func (self *MacroBase) getDockerImageName() (string, error) {
+            return self.project.getBaseEnv().getDockerImageName()
+        }
+        func (self *MacroBase) getWorkingDir() string {
+            return self.project.getWorkingDir()
+        }
+        func (self *MacroBase) getMountingPoints() map[string]MountingPoint {
+            return self.project.getMountingPoints()
+        }
+        func (self *MacroBase) getEnvironmentVariables() map[string]string {
+            return self.project.getEnvironmentVariables()
+        }
+        func (self *MacroBase) getPorts() []string {
+            return self.project.getPorts()
+        }
+        func (self *MacroBase) getEnableGui() bool {
+            return self.project.getEnableGui()
+        }
+        func (self *MacroBase) getPrivileged() bool {
+            return self.project.getPrivileged()
+        }
+        func (self *MacroBase) getSecurityOpts() []string {
+        	return self.project.getSecurityOpts()
+        }
+        func (self *MacroBase) getEnableNvidiaDevices() bool {
+            return self.project.getEnableNvidiaDevices()
         }
 
 type MountingPointBase struct {
@@ -191,6 +238,9 @@ type ProjectBase struct {
         }
         func (self *ProjectBase) getPrivileged() bool {
         	return false
+        }
+        func (self *ProjectBase) getSecurityOpts() []string {
+        	return []string{}
         }
 
 

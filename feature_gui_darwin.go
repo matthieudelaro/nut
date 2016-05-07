@@ -14,7 +14,7 @@ import (
     // "strings" // words := strings.Fields(someString)
 )
 
-func enableGui(project Project) (map[docker.Port][]docker.PortBinding, []string, []string, error) {
+func enableGui() (map[docker.Port][]docker.PortBinding, []string, []string, error) {
     guiPortNumber := "6000"
     portBindings := map[docker.Port][]docker.PortBinding{}
     envVariables := []string{}

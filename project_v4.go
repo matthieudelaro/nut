@@ -176,6 +176,7 @@ type ProjectV4 struct {
                 self.cacheMacros = make(map[string]Macro)
                 for name, data := range self.Macros {
                     self.cacheMacros[name] = data
+                    self.cacheMacros[name].setParentProject(self)
                 }
                 // add the macros of the parent, if there is no conflict
                 if self.parentProject != nil {
@@ -184,6 +185,7 @@ type ProjectV4 struct {
                         if self.cacheMacros[name] == nil {
                             log.Debug("add it")
                             self.cacheMacros[name] = macro
+                            self.cacheMacros[name].setParentProject(self)
                         } else {
                             log.Debug("already exist")
                         }

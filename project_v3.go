@@ -102,6 +102,7 @@ type ProjectV3 struct {
         	macros := make(map[string]Macro) //, 0, len(self.Macros))
         	for name, data := range self.Macros {
         		macros[name] = data
+                macros[name].setParentProject(self)
         	}
         	return macros
         }

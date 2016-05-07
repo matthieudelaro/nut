@@ -59,7 +59,7 @@ func main() {
                     UsageText: macro.getUsageText(),
                     Description: macro.getDescription(),
     				Action: func(c *cli.Context) {
-    					execMacro(macro, project)
+    					execMacro(macro)
     				},
     			}
             }

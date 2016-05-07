@@ -9,7 +9,7 @@ import (
     "os"
 )
 
-func enableGui(project Project) (map[docker.Port][]docker.PortBinding, []string, []string, error) {
+func enableGui() (map[docker.Port][]docker.PortBinding, []string, []string, error) {
     portBindings := map[docker.Port][]docker.PortBinding{}
     envVariables := []string{}
     binds := make([]string, 0)
