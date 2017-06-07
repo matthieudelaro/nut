@@ -51,10 +51,10 @@ Not even Go!
 ```bash
 # 1 - Download sources and dependencies
     # unix
-    docker run --rm -v $PWD:/go/src/github.com/matthieudelaro/ -w /go/src/github.com/matthieudelaro/ matthieudelaro/golang:1.6-cross bash -c 'git clone https://github.com/matthieudelaro/nut.git  --progress && cd nut && govendor fetch +missing'
+    docker run --rm -v $PWD:/go/src/github.com/matthieudelaro/ -w /go/src/github.com/matthieudelaro/ matthieudelaro/golang:1.6-cross bash -c 'git clone https://github.com/matthieudelaro/nut.git  --progress && cd nut && govendor sync'
 
     # windows
-    docker run --rm -v ${PWD}:/go/src/github.com/matthieudelaro/ -w /go/src/github.com/matthieudelaro/ matthieudelaro/golang:1.6-cross bash -c 'git clone https://github.com/matthieudelaro/nut.git  --progress && cd nut && govendor fetch +missing'
+    docker run --rm -v ${PWD}:/go/src/github.com/matthieudelaro/ -w /go/src/github.com/matthieudelaro/ matthieudelaro/golang:1.6-cross bash -c 'git clone https://github.com/matthieudelaro/nut.git  --progress && cd nut && govendor sync'
 
 # 2 - Move to nut folder
     cd nut
