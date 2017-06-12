@@ -1,13 +1,13 @@
 [![Build Status](https://travis-ci.org/matthieudelaro/nut.svg?branch=master)](https://travis-ci.org/matthieudelaro/nut)
 
 ### Whetting Your Appetite
-Tired of hearing: "works on my machine"?  
-Ever experienced headache to install libraries and dependencies?  
-Ever had to deal with two incompatible versions of a program at once?  
-Ever wished to try out a new language first, and install it only if it pleases you?  
-Ever wished to develop for Linux when you use Mac OS or Windows?  
-Ever wished to develop in Go from the folder of your choice?  
-Ever wished to have a unified development tool, across all platforms, customizable to any languages?  
+Tired of hearing: "works on my machine"?
+Ever experienced headache to install libraries and dependencies?
+Ever had to deal with two incompatible versions of a program at once?
+Ever wished to try out a new language first, and install it only if it pleases you?
+Ever wished to develop for Linux when you use Mac OS or Windows?
+Ever wished to develop in Go from the folder of your choice?
+Ever wished to have a unified development tool, across all platforms, customizable to any languages?
 Ever wished to simplify and share your research on neural networks in Docker, running on GPU, with reproducible results?
 
 ### Nut
@@ -51,10 +51,10 @@ Not even Go!
 ```bash
 # 1 - Download sources and dependencies
     # unix
-    docker run --rm -v $PWD:/go/src/github.com/matthieudelaro/ -w /go/src/github.com/matthieudelaro/ matthieudelaro/golang:1.6-cross bash -c 'git clone https://github.com/matthieudelaro/nut.git  --progress && cd nut && govendor sync'
+    docker run --rm -v $PWD:/go/src/github.com/matthieudelaro/ -w /go/src/github.com/matthieudelaro/ matthieudelaro/golang:1.7-cross bash -c 'git clone https://github.com/matthieudelaro/nut.git  --progress && cd nut && govendor sync'
 
     # windows
-    docker run --rm -v ${PWD}:/go/src/github.com/matthieudelaro/ -w /go/src/github.com/matthieudelaro/ matthieudelaro/golang:1.6-cross bash -c 'git clone https://github.com/matthieudelaro/nut.git  --progress && cd nut && govendor sync'
+    docker run --rm -v ${PWD}:/go/src/github.com/matthieudelaro/ -w /go/src/github.com/matthieudelaro/ matthieudelaro/golang:1.7-cross bash -c 'git clone https://github.com/matthieudelaro/nut.git  --progress && cd nut && govendor sync'
 
 # 2 - Move to nut folder
     cd nut
@@ -136,14 +136,14 @@ macros: # macros define operations that Nut can perform
     - go test
 
 container_working_directory: /go/src/project # where macros will be executed
-work_in_project_folder_as: /go/src/github.com/matthieudelaro/nut 
+work_in_project_folder_as: /go/src/github.com/matthieudelaro/nut
   # Mount the folder of the project (where nut.yml is located) to the given
-  # location inside the container. Also set the working directory to this 
+  # location inside the container. Also set the working directory to this
   # location. This is equivalent to container_working_directory + volume
 syntax_version: "7" # Nut evolves quickly ; its configuration file syntax as well.
                     # So nut files are versioned to ensure backward compatibility.
-                    
-# extra configuration:   
+
+# extra configuration:
 privileged: true # run container with --privileged flag
 environment: # set environment variables
   var_A: hello # equivalent to: export var_A=hello
@@ -155,7 +155,7 @@ ports: # open ports
 net: host # docker run --net
 uts: host # docker run --uts
 security_opts: # docker run --security-opt
-  - seccomp=unconfined 
+  - seccomp=unconfined
 devices: # expose devices to the container
   # On OSX and Windows, docker runs into a VM which does not support devices.
   # So Nut supports devices on linux only.

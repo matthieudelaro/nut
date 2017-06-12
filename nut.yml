@@ -1,6 +1,6 @@
 syntax_version: "7"
 project_name: nut
-docker_image: matthieudelaro/golang:1.6-cross
+docker_image: matthieudelaro/golang:1.7-cross
 work_in_project_folder_as: /go/src/github.com/matthieudelaro/nut
 macros:
   setup:
@@ -23,6 +23,25 @@ macros:
     - env GOOS=windows GOARCH=amd64 go build -o `echo $dirName`Windows.exe
     aliases:
     - ba
+  release:
+    usage: release the project for linux, OSX, and Windows
+    actions:
+    # create a build tag
+    - export RELEASE_TAG="Build from commit `git rev-parse HEAD`, at `env TZ=UTC+7 date '+%Hh%Mmin%Ssec on %Y/%m/%d (PDT)'`"
+    - echo $RELEASE_TAG
+    - export RELEASE_TAG=" + \". $RELEASE_TAG\""
+    # insert the build tag in the description of the program
+    - sed -i "s#//RELEASE_BUILD_PLACEHOLDER//#$RELEASE_TAG#" main.go
+    # compile for all architectures
+    - export dirName=`pwd | xargs basename`
+    - echo Building for linux...
+    - env GOOS=linux GOARCH=amd64 go build -o release/linux/`echo $dirName`
+    - echo Building for OSX...
+    - env GOOS=darwin GOARCH=amd64 go build -o release/osx/`echo $dirName`
+    - echo Building for Windows...
+    - env GOOS=windows GOARCH=amd64 go build -o release/windows/`echo $dirName`.exe
+    # undo changes from the source code of the program
+    - sed -i "s#$RELEASE_TAG#//RELEASE_BUILD_PLACEHOLDER//#" main.go
   build-linux:
     usage: build the project for Linux
     actions:

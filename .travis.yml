@@ -1,12 +1,12 @@
 language: go
 
 go:
-  - 1.6
+  - 1.7
 
 install:
   - go get -u github.com/kardianos/govendor
-  - go get github.com/stretchr/testify/assert  # for fsouza/go-dockerclient
-  - govendor fetch +missing
+  # - go get github.com/stretchr/testify/assert  # for fsouza/go-dockerclient
+  - govendor sync
 
 script:
   - env GOOS=linux GOARCH=amd64 go build -o `echo $dirName`Linux
