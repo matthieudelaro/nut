@@ -1,18 +1,27 @@
+sudo: required
+
 language: go
 
 go:
-  - 1.6
+  - 1.7
 
-install:
-  - go get -u github.com/kardianos/govendor
-  - go get github.com/stretchr/testify/assert  # for fsouza/go-dockerclient
-  - govendor fetch +missing
+services:
+  - docker
+
+before_install:
+- docker pull matthieudelaro/golang:1.7-cross
+# - docker run -i -t --rm -v $PWD:/go/src/github.com/matthieudelaro/nut -w /go/src/github.com/matthieudelaro/nut matthieudelaro/golang:1.7-cross bash -c 'echo check; pwd; ls;'
+- docker run -i -t --rm -v $PWD:/go/src/github.com/matthieudelaro/nut -w /go/src/github.com/matthieudelaro/nut matthieudelaro/golang:1.7-cross bash -c 'govendor sync'
+# - docker run --rm -v $PWD:/go/src/github.com/matthieudelaro/ -w /go/src/github.com/matthieudelaro/ matthieudelaro/golang:1.7-cross bash -c 'git clone https://github.com/matthieudelaro/nut.git  --progress && cd nut && govendor sync'
+# - docker ps -a
+# - docker run carlad/sinatra /bin/sh -c "cd /root/sinatra; bundle exec rake test"
 
 script:
-  - env GOOS=linux GOARCH=amd64 go build -o `echo $dirName`Linux
-  - env GOOS=darwin GOARCH=amd64 go build -o `echo $dirName`OSX
-  - env GOOS=windows GOARCH=amd64 go build -o `echo $dirName`Windows  # nut does not support Windows in master branch yet
-  - go test
-  - cd config
-  - go test
+# - bundle exec rake test
+- docker run -i -t --rm -v $PWD:/go/src/github.com/matthieudelaro/nut -w /go/src/github.com/matthieudelaro/nut matthieudelaro/golang:1.7-cross bash -c 'go build -o `echo $dirName`Linux'
+- docker run -i -t --rm -v $PWD:/go/src/github.com/matthieudelaro/nut -w /go/src/github.com/matthieudelaro/nut matthieudelaro/golang:1.7-cross bash -c 'env GOOS=darwin GOARCH=amd64 go build -o `echo $dirName`OSX'
+- docker run -i -t --rm -v $PWD:/go/src/github.com/matthieudelaro/nut -w /go/src/github.com/matthieudelaro/nut matthieudelaro/golang:1.7-cross bash -c 'env GOOS=windows GOARCH=amd64 go build -o `echo $dirName`Windows'
+- go test
+- cd config
+- go test
 
