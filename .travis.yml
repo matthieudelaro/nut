@@ -29,7 +29,7 @@ services:
 
 before_install:
 - docker pull matthieudelaro/golang:1.7-cross
-- docker run -i -t --rm -v $PWD:/go/src/github.com/matthieudelaro/nut -w /go/src/github.com/matthieudelaro/nut matthieudelaro/golang:1.7-cross bash -c 'echo check; pwd; ls;'
+# - docker run -i -t --rm -v $PWD:/go/src/github.com/matthieudelaro/nut -w /go/src/github.com/matthieudelaro/nut matthieudelaro/golang:1.7-cross bash -c 'echo check; pwd; ls;'
 - docker run -i -t --rm -v $PWD:/go/src/github.com/matthieudelaro/nut -w /go/src/github.com/matthieudelaro/nut matthieudelaro/golang:1.7-cross bash -c 'govendor sync'
 # - docker run --rm -v $PWD:/go/src/github.com/matthieudelaro/ -w /go/src/github.com/matthieudelaro/ matthieudelaro/golang:1.7-cross bash -c 'git clone https://github.com/matthieudelaro/nut.git  --progress && cd nut && govendor sync'
 # - docker ps -a
@@ -37,5 +37,7 @@ before_install:
 
 script:
 # - bundle exec rake test
-- docker run -i -t --rm -v $PWD:/go/src/github.com/matthieudelaro/nut -w /go/src/github.com/matthieudelaro/nut matthieudelaro/golang:1.7-cross bash -c 'go build -o nut'
+- docker run -i -t --rm -v $PWD:/go/src/github.com/matthieudelaro/nut -w /go/src/github.com/matthieudelaro/nut matthieudelaro/golang:1.7-cross bash -c 'go build -o `echo $dirName`Linux'
+- docker run -i -t --rm -v $PWD:/go/src/github.com/matthieudelaro/nut -w /go/src/github.com/matthieudelaro/nut matthieudelaro/golang:1.7-cross bash -c 'env GOOS=darwin GOARCH=amd64 go build -o `echo $dirName`OSX'
+- docker run -i -t --rm -v $PWD:/go/src/github.com/matthieudelaro/nut -w /go/src/github.com/matthieudelaro/nut matthieudelaro/golang:1.7-cross bash -c 'env GOOS=windows GOARCH=amd64 go build -o `echo $dirName`Windows'
 

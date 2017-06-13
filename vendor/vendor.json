@@ -301,6 +301,12 @@
 			"revisionTime": "2017-06-07T15:13:09Z"
 		},
 		{
+			"checksumSHA1": "RgWX47Lzo3I+K7A3rgWKHljZqmc=",
+			"path": "github.com/opencontainers/runc/libcontainer/system",
+			"revision": "c995ee407bdd9b2c3f649b42527fe3e02894096e",
+			"revisionTime": "2017-06-12T16:11:33Z"
+		},
+		{
 			"checksumSHA1": "3AoPMXlmVq2+iWMpsdJZkcUKHB8=",
 			"path": "github.com/opencontainers/runc/libcontainer/user",
 			"revision": "629e35666d31f743090452416c8df207d9fdbd34",
@@ -397,5 +403,5 @@
 			"revisionTime": "2017-04-07T17:21:22Z"
 		}
 	],
-	"rootPath": "github.com/matthieudelaro/nut"
+	"rootPath": "github.com/matthieudelaro"
 }
