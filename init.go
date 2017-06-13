@@ -21,7 +21,7 @@ func initSubcommand(c *cli.Context, context Utils.Context, gitHubFlag string) {
     if gitHubFlag == "" {
         defaultProject := Config.NewProjectV6(nil)
         defaultProject.ProjectName = name
-        defaultProject.DockerImage = "golang:1.6"
+        defaultProject.DockerImage = "matthieudelaro/golang:1.7-cross"
         defaultProject.Macros["build"] = &Config.MacroV6{
             Usage: "build the project in the container",
             Actions: []string{"go build -o nut"},
