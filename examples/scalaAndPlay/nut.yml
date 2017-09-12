@@ -1,0 +1,20 @@
+syntax_version: "7"
+project_name: scalaAPI
+docker_image: ysihaoy/scala-play:2.12.3-2.6.2-sbt-0.13.15
+
+work_in_project_folder_as: /root/.ivy2
+  # used this folder, so that /root/.ivy2/cache (used by sbt) will persist
+  
+ports: # open ports to access the result on a browser
+  - 9000:9000
+  
+macros:
+  run:
+    usage: run the server
+    actions:
+    - sbt run
+  cli:
+    usage: start sbt in interactive mode
+    actions:
+    - sbt
+
