@@ -163,6 +163,8 @@ devices: # expose devices to the container
     host_path: "/dev/1"
     container_path: "/dev/1"
     options: "rw"
+enable_nvidia_devices: true # or simply mount Nvidia GPUs
+                            # and associated driver in one line
 
 ```
 
