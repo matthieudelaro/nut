@@ -51,23 +51,23 @@ Not even Go!
 ```bash
 # 1 - Download sources and dependencies
     # unix
-    docker run --rm -v $PWD:/go/src/github.com/matthieudelaro/ -w /go/src/github.com/matthieudelaro/ matthieudelaro/golang:1.7-cross bash -c 'git clone https://github.com/matthieudelaro/nut.git  --progress && cd nut && govendor sync'
+    docker run --rm -v $PWD:/go/src/github.com/matthieudelaro/ -w /go/src/github.com/matthieudelaro/ dockercore/golang-cross:1.13.15 bash -c 'git clone https://github.com/matthieudelaro/nut.git  --progress && cd nut && govendor sync'
 
     # windows
-    docker run --rm -v ${PWD}:/go/src/github.com/matthieudelaro/ -w /go/src/github.com/matthieudelaro/ matthieudelaro/golang:1.7-cross bash -c 'git clone https://github.com/matthieudelaro/nut.git  --progress && cd nut && govendor sync'
+    docker run --rm -v ${PWD}:/go/src/github.com/matthieudelaro/ -w /go/src/github.com/matthieudelaro/ dockercore/golang-cross:1.13.15 bash -c 'git clone https://github.com/matthieudelaro/nut.git  --progress && cd nut && govendor sync'
 
 # 2 - Move to nut folder
     cd nut
 
 # 3 - Build Nut
     # Build Nut for Linux, in a container
-    docker run -i -t --rm -v $PWD:/go/src/github.com/matthieudelaro/nut -w /go/src/github.com/matthieudelaro/nut matthieudelaro/golang:1.7-cross go build -o nut
+    docker run -i -t --rm -v $PWD:/go/src/github.com/matthieudelaro/nut -w /go/src/github.com/matthieudelaro/nut dockercore/golang-cross:1.13.15 go build -o nut
 
     # Build Nut for OSX, in a container
-    docker run -i -t --rm -v $PWD:/go/src/github.com/matthieudelaro/nut -w /go/src/github.com/matthieudelaro/nut matthieudelaro/golang:1.7-cross env GOOS=darwin GOARCH=amd64 go build -o nut
+    docker run -i -t --rm -v $PWD:/go/src/github.com/matthieudelaro/nut -w /go/src/github.com/matthieudelaro/nut dockercore/golang-cross:1.13.15 env GOOS=darwin GOARCH=amd64 go build -o nut
 
     # Build Nut for Windows, in a container.
-    docker run -i -t --rm -v ${PWD}:/go/src/github.com/matthieudelaro/nut -w /go/src/github.com/matthieudelaro/nut matthieudelaro/golang:1.7-cross env GOOS=windows GOARCH=amd64 go build -o nut.exe
+    docker run -i -t --rm -v ${PWD}:/go/src/github.com/matthieudelaro/nut -w /go/src/github.com/matthieudelaro/nut dockercore/golang-cross:1.13.15 env GOOS=windows GOARCH=amd64 go build -o nut.exe
 
 # Run nut
 ./nut   # or .\nut.exe on Windows
