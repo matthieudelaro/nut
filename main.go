@@ -3,6 +3,7 @@ package main
 import (
     "os"
     "sort"
+    "strconv"
     "github.com/codegangsta/cli"
     log "github.com/Sirupsen/logrus"
     "reflect"
@@ -204,6 +205,12 @@ func main() {
         log.Error("Undefined macro " + macroName)
         cli.ShowAppHelp(c)
         os.Exit(42)
+    }
+
+    // Convert app arguments into Env variables similar to Bash.
+    // They will be expanded in macro actions later.
+    for i := range os.Args {
+        os.Setenv(strconv.Itoa(i), os.Args[i])
     }
 
     app.Run(os.Args)
