@@ -191,6 +191,9 @@ As opposed to:
 This will keep Nut easy to integrate in text editors and IDEs.
 
 ### Support for [nvidia-docker](https://github.com/NVIDIA/nvidia-docker.git)
+Nut has been developed primarily as an MLOps tool.
+As such, it offers great support for Nvidia GPUs: train and evaluate in a Docker container, without any computational overhead 🎉
+
 On Linux, Nut can leverage Nvidia GPUs for your environments. This is useful to use and develop deep learning frameworks, or even to run video games. Due to limitations of Docker on OSX and Windows, Nut does not support GPUs on those platforms.
 
 GPU support relies on [nvidia-docker-plugin](https://github.com/NVIDIA/nvidia-docker/wiki/Using-nvidia-docker-plugin). If it is not running automatically on your machine after [installation](https://github.com/NVIDIA/nvidia-docker/wiki/Installation), you can run it [this way](https://github.com/NVIDIA/nvidia-docker/wiki/Using-nvidia-docker-plugin#usage):
